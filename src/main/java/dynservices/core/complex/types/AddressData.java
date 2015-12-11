@@ -22,7 +22,7 @@ public class AddressData extends AbstractComplexData<Address> {
 
     @Override
     public ComplexType getType() {
-        return ComplexType.ADDRESS;
+        return BusinessType.ADDRESS;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AddressData extends AbstractComplexData<Address> {
 
     public static AddressData newAddressData(Address address, List<ElementData> children) {
         AddressData data = new AddressData();
-        data.setName(data.getType().getId());
+        data.setName(data.getType().id());
         data.setValue(address);
         data.setChildren(children);
         return data;

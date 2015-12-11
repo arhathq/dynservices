@@ -6,7 +6,7 @@ import dynservices.core.complex.types.AddressMetadata;
 import java.util.HashMap;
 
 /**
- * Suitable class for generation of metadata. It is not a threadsafe
+ * Suitable class for generation of metadata. It is not a thread safe
  */
 public class MetadataBuilder {
 
@@ -65,7 +65,7 @@ public class MetadataBuilder {
         checkForRoot();
 
         if (backstepNum <= 0) {
-            throw new IllegalArgumentException("Value must be greater zero.");
+            throw new IllegalArgumentException("Value must be greater than zero.");
         }
 
         for (int i = 0; i < backstepNum; i++) {
@@ -88,27 +88,5 @@ public class MetadataBuilder {
         if (metadata == null) {
             throw new IllegalStateException("No root element defined");
         }
-    }
-
-    public static void main(String[] args) {
-        ElementMetadata metadata = MetadataBuilder.create().
-                withRootElement("service", ElementType.Container).
-                withElement("customer", ElementType.Container).
-                withChildElements().
-                withElement("custNo", ElementType.String).
-                withElement("firstName", ElementType.String).
-                withElement("lastName", ElementType.String).
-                withElement("birthDate", ElementType.Date).
-                withElement("addresses", ElementType.Container).
-                withChildElements().
-                withElement("address", ElementType.Container).
-                withChildElements().
-                withElement("country", ElementType.String).
-                withElement("city", ElementType.String).
-                withParent().
-                withComplexElement(new AddressMetadata()).
-                build();
-
-        System.out.println(metadata);
     }
 }

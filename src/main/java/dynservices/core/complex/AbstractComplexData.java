@@ -45,7 +45,7 @@ public abstract class AbstractComplexData<T> implements ComplexData<T> {
     @Override
     public ElementData asElementData() {
         if (getValue() == null) {
-            return DataMethods.newElementData(getType().getId(), null);
+            return DataMethods.newElementData(getType().id(), null);
         }
 
         List<ElementData> children = new ArrayList<>();
@@ -58,7 +58,7 @@ public abstract class AbstractComplexData<T> implements ComplexData<T> {
             }
         }
 
-        return DataMethods.newElementData(getType().getId(), null, children);
+        return DataMethods.newElementData(getType().id(), null, children);
     }
 
     protected ElementData resolveElementData(ElementData<?> elementData) {

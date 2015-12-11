@@ -21,7 +21,7 @@ public class CustomerData extends AbstractComplexData<Customer> {
 
     @Override
     public ComplexType getType() {
-        return ComplexType.CUSTOMER;
+        return BusinessType.CUSTOMER;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CustomerData extends AbstractComplexData<Customer> {
 
     public static CustomerData newCustomerData(Customer customer, List<ElementData> children) {
         CustomerData data = new CustomerData();
-        data.setName(data.getType().getId());
+        data.setName(data.getType().id());
         data.setValue(customer);
         data.setChildren(children);
         return data;

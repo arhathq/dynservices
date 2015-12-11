@@ -41,7 +41,7 @@ public class ComplexDataTest {
         ComplexData<Address> addressData = AddressData.newAddressData(address);
 
         ElementData elementData = addressData.asElementData();
-        assertTrue(elementData.getName().equals(addressData.getType().getId()));
+        assertTrue(elementData.getName().equals(addressData.getType().id()));
         assertFalse(elementData.getChildren().isEmpty());
         assertTrue(elementData.getChildren().size() == 4);
     }
@@ -68,6 +68,6 @@ public class ComplexDataTest {
         ComplexData<Customer> customerData = CustomerData.newCustomerData(customer, addressesData);
 
         ElementData elementData = customerData.asElementData();
-        assertTrue(elementData.getName().equals(customerData.getType().getId()));
+        assertTrue(elementData.getName().equals(customerData.getType().id()));
     }
 }
