@@ -1,4 +1,4 @@
-name := "dynservices"
+name := "dynaservices"
 
 organization := "ua.dn.arhathq"
 

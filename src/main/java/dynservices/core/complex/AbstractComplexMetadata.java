@@ -3,7 +3,9 @@ package dynservices.core.complex;
 import dynservices.core.ElementMetadata;
 import dynservices.core.ElementType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,6 +14,7 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
 
     private String name;
     private ElementType type = ElementType.Custom;
+    private Map<String, String> properties = new HashMap<>();
     private List<ElementMetadata> children;
 
     @Override
@@ -26,6 +29,11 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
     @Override
     public ElementType getType() {
         return type;
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return properties;
     }
 
     @Override

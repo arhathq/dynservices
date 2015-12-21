@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <service name="GetAddresses" version="1">
     <request>
-        <parameter name="customerNo"/>
+        <request-parameter name="customerNo"/>
+        <request-body>
+            <element/>
+        </request-body>
     </request>
     <actions>
-        <persist-request-action>
-            <output-parameter name="request_id"/>
-        </persist-request-action>
-        <db-action sql="SELECT country, city, street FROM addresses WHERE customerno=?">
+        <action pack="true">
+            <input-parameter name="request-body"/>
+            <output-parameter name="reqId"/>
+        </action>
+        <action sql="SELECT country, city, street FROM addresses WHERE customerno=?">
             <input-parameter name="customerNo"/>
             <output-parameter name="addresses"/>
-        </db-action>
-        <db-action procedure="pkgAddress.sp_getAddresses(?, ?, ?, ?)">
+        </action>
+        <action procedure="pkgAddress.sp_getAddresses(?, ?, ?, ?)">
             <input-parameter name="customerNo"/>
             <output-parameter name="country"/>
             <output-parameter name="city"/>
             <output-parameter name="street"/>
-        </db-action>
-        <db-action function="pkgAddress.fn_getAddresses(?)">
+        </action>
+        <action function="pkgAddress.fn_getAddresses(?)">
             <input-parameter name="customerNo"/>
             <output-parameter name="addresses"/>
-        </db-action>
-        <custom-action class="com.xx.GetAddressesAction">
+        </action>
+        <action class="com.xx.GetAddressesAction">
             <input-parameter name="customerNo"/>
             <output-parameter name="addresses"/>
-        </custom-action>
+        </action>
+        <action unpack="true">
+            <input-parameter name="resId"/>
+            <output-parameter name="resId"/>
+        </action>
     </actions>
     <response>
-        <addresses>
-            <address/>
-        </addresses>
+        <element/>
     </response>
     <error/>
 </service>

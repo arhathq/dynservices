@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elements xmlns="elements.xsd">
 
-    <request>
-        <parameter/>
-        <body/>
-    </request>
+    <service/>
+
+    <request/>
 
     <parameter/>
 
     <body/>
 
+    <actions/>
+
+    <action/>
+
+    <input-parameter/>
+
+    <output-parameter/>
+
     <response/>
 
-    <error>
-        <errorcode/>
-        <errordescription/>
-    </error>
+    <error/>
+
+    <errorcode/>
+
+    <errordescription/>
 
 </elements>
