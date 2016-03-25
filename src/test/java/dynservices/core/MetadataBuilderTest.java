@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -16,49 +19,65 @@ public class MetadataBuilderTest {
 
     @Test
     public void testBuildMetadata() {
-        ElementMetadata metadata = MetadataBuilder.create().
-                withRootElement("service", ElementType.Container).
-                withElement("customer", ElementType.Container).
-                withChildElements().
-                withElement("custNo", ElementType.String).
-                withElement("firstName", ElementType.String).
-                withElement("lastName", ElementType.String).
-                withElement("birthDate", ElementType.Date).
-                withElement("addresses", ElementType.Container).
-                withChildElements().
-                withElement("address", ElementType.Container).
-                withChildElements().
-                withElement("country", ElementType.String).
-                withElement("city", ElementType.String).
+        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.Container).
+                withField(MetadataBuilder.createFor("customer", ElementType.Container).
+                        withField("custNo", ElementType.String).
+                        withField("firstName", ElementType.String).
+                        withField("lastName", ElementType.String).
+                        withField("birthDate", ElementType.Date).
+                        withField(MetadataBuilder.createFor("addresses", ElementType.Container).
+                                withField(MetadataBuilder.createFor("address", ElementType.Container).
+                                        withField("country", ElementType.String).
+                                        withField("city", ElementType.String)
+                                )
+                        )
+                ).
                 build();
 
-        assertTrue(metadata.getChildren().size() == 1);
+        assertTrue(metadata.getFields().size() == 1);
 
-        ElementMetadata customerMetadata = metadata.getChildren().get(0);
+        ElementMetadata customerMetadata = metadata.getFields().get(0);
 
-        assertTrue(customerMetadata.getChildren().size() == 5);
+        assertTrue(customerMetadata.getFields().size() == 5);
+    }
+
+    @Test
+    public void testBuildMetadataWithProperties() {
+        Map<String, String> properties = new HashMap<>();
+        properties.put("alias", "cs");
+        properties.put("validation", "true");
+
+        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.String).
+                withProperty("persisted", "true").
+                withProperties(properties).
+                build();
+
+        assertNotNull(metadata.getProperties().get("persisted"));
+        assertNotNull(metadata.getProperties().get("alias"));
+        assertNotNull(metadata.getProperties().get("validation"));
     }
 
     @Test
     public void testBuildComplexMetadata() {
-        ElementMetadata metadata = MetadataBuilder.create().
-                withRootElement("service", ElementType.Container).
-                withComplexElement(new CustomerMetadata()).
-                withComplexElement(new AddressMetadata()).
+        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.Container).
+                withField(new CustomerMetadata()).
+                withField(new AddressMetadata()).
                 build();
 
-        assertTrue(metadata.getChildren().size() == 2);
+        assertTrue(metadata.getFields().size() == 2);
+    }
 
-        ElementMetadata nestedMetadata = MetadataBuilder.create().
-                withRootElement("service", ElementType.Container).
-                withComplexElement(new CustomerMetadata()).
-                withChildElements().
-                withElement("addresses", ElementType.Container).
-                withChildElements().
-                withComplexElement(new AddressMetadata()).
+    @Test
+    public void testBuildComplexMetadataWithNestedData() {
+        ElementMetadata nestedMetadata = MetadataBuilder.createFor("service", ElementType.Container).
+                withField(MetadataBuilder.createFor(new CustomerMetadata()).
+                        withField(MetadataBuilder.createFor("addresses", ElementType.Container).
+                                withField(new AddressMetadata())
+                        )
+                ).
                 build();
 
-        assertTrue(nestedMetadata.getChildren().size() == 1);
+        assertTrue(nestedMetadata.getFields().size() == 1);
     }
 
 }

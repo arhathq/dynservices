@@ -1,9 +1,6 @@
 package dynservices.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -12,12 +9,25 @@ public class ElementMetadataImpl implements ElementMetadata {
 
     private String name;
     private ElementType type;
+    private List<ElementMetadata> fields = new ArrayList<>();
     private Map<String, String> properties = new HashMap<>();
-    private List<ElementMetadata> children = new ArrayList<>();
 
     public ElementMetadataImpl(String name, ElementType type) {
+        this(name, type, Collections.emptyList(), Collections.emptyMap());
+    }
+
+    public ElementMetadataImpl(String name, ElementType type, List<ElementMetadata> fields, Map<String, String> properties) {
         this.name = name;
         this.type = type;
+        this.fields.addAll(fields);
+        this.properties.putAll(properties);
+    }
+
+    public ElementMetadataImpl(ElementMetadata em) {
+        this.name = em.getName();
+        this.type = em.getType();
+        this.fields.addAll(em.getFields());
+        this.properties.putAll(em.getProperties());
     }
 
     @Override
@@ -36,12 +46,8 @@ public class ElementMetadataImpl implements ElementMetadata {
     }
 
     @Override
-    public List<ElementMetadata> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<ElementMetadata> children) {
-        this.children = children;
+    public List<ElementMetadata> getFields() {
+        return fields;
     }
 
 }

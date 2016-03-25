@@ -1,92 +1,74 @@
 package dynservices.core;
 
-import dynservices.core.complex.ComplexMetadata;
-import dynservices.core.complex.types.AddressMetadata;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Suitable class for generation of metadata. It is not a thread safe
  */
 public class MetadataBuilder {
 
-    private ElementMetadata metadata;
+    private String name;
+    private ElementType type;
+    private List<ElementMetadata> fields = new ArrayList<>();
+    private Map<String, String> properties = new HashMap<>();
 
-    private ElementMetadata parent;
-    private ElementMetadata current;
-
-    private HashMap<Integer, ElementMetadata> parentMap;
-
-    private MetadataBuilder() {}
-
-    public static MetadataBuilder create() {
-        return new MetadataBuilder();
+    private MetadataBuilder(String name, ElementType type) {
+        checkForName(name);
+        this.name = name;
+        this.type = type;
     }
 
-    public MetadataBuilder withRootElement(String name, ElementType type) {
-        metadata = new ElementMetadataImpl(name, type);
-        current = metadata;
-        parent = metadata;
-        parentMap = new HashMap<>();
-        parentMap.put(current.hashCode(), parent);
+    private MetadataBuilder(ElementMetadata em) {
+        this.name = em.getName();
+        this.type = em.getType();
+        fields.addAll(em.getFields());
+    }
+
+    public static MetadataBuilder createFor(String name, ElementType type) {
+        return new MetadataBuilder(name, type);
+    }
+
+    public static MetadataBuilder createFor(ElementMetadata em) {
+        return new MetadataBuilder(em);
+    }
+
+    public MetadataBuilder withField(String name, ElementType type) {
+        checkForName(name);
+        fields.add(new ElementMetadataImpl(name, type));
         return this;
     }
 
-    public MetadataBuilder withElement(String name, ElementType type) {
-        checkForRoot();
-
-        current = new ElementMetadataImpl(name, type);
-        parentMap.put(current.hashCode(), parent);
-        parent.getChildren().add(current);
+    public MetadataBuilder withField(ElementMetadata em) {
+        fields.add(em);
         return this;
     }
 
-    public MetadataBuilder withComplexElement(ComplexMetadata element) {
-        checkForRoot();
-
-        current = element;
-        parentMap.put(current.hashCode(), parent);
-        parent.getChildren().add(current);
+    public MetadataBuilder withField(MetadataBuilder builder) {
+        fields.add(builder.build());
         return this;
     }
 
-    public MetadataBuilder withChildElements() {
-        checkForRoot();
-
-        parent = current;
+    public MetadataBuilder withProperties(Map<String, String> properties) {
+        this.properties.putAll(properties);
         return this;
     }
 
-    public MetadataBuilder withParent() {
-        return withParent(1);
-    }
-
-    public MetadataBuilder withParent(int backstepNum) {
-        checkForRoot();
-
-        if (backstepNum <= 0) {
-            throw new IllegalArgumentException("Value must be greater than zero.");
-        }
-
-        for (int i = 0; i < backstepNum; i++) {
-            current = parentMap.get(current.hashCode());
-            parent = parentMap.get(current.hashCode());
-        }
+    public MetadataBuilder withProperty(String name, String value) {
+        properties.put(name, value);
         return this;
     }
 
     public ElementMetadata build() {
-        checkForRoot();
-
-        current = null;
-        parent = null;
-        parentMap.clear();
-        return metadata;
+        return new ElementMetadataImpl(name, type, fields, properties);
     }
 
-    private void checkForRoot() {
-        if (metadata == null) {
-            throw new IllegalStateException("No root element defined");
+    private void checkForName(String name) {
+        if (name == null || name.length() == 0) {
+            throw new IllegalStateException("No name defined");
         }
     }
 }

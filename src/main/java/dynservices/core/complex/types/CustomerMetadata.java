@@ -18,13 +18,13 @@ public class CustomerMetadata extends AbstractComplexMetadata {
     private static final String LAST_NAME = "lastName";
 
     public CustomerMetadata() {
-        setName(BusinessType.CUSTOMER.id());
+        super(BusinessType.CUSTOMER.id());
 
         List<ElementMetadata> fields = new ArrayList<>();
         fields.add(new ElementMetadataImpl(CUSTOMER_NO, ElementType.String));
         fields.add(new ElementMetadataImpl(FIRST_NAME, ElementType.String));
         fields.add(new ElementMetadataImpl(LAST_NAME, ElementType.String));
-        setChildren(fields);
+        setFields(fields);
     }
 
 }

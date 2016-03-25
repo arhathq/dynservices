@@ -14,6 +14,6 @@ public interface ElementMetadata {
 
     Map<String, String> getProperties();
 
-    List<ElementMetadata> getChildren();
+    List<ElementMetadata> getFields();
 
 }

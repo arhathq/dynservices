@@ -19,14 +19,14 @@ public class AddressMetadata extends AbstractComplexMetadata {
     private static final String ZIP = "zip";
 
     public AddressMetadata() {
-        setName(BusinessType.ADDRESS.id());
+        super(BusinessType.ADDRESS.id());
 
         List<ElementMetadata> fields = new ArrayList<>();
         fields.add(new ElementMetadataImpl(COUNTRY, ElementType.String));
         fields.add(new ElementMetadataImpl(CITY, ElementType.String));
         fields.add(new ElementMetadataImpl(STREET, ElementType.String));
         fields.add(new ElementMetadataImpl(ZIP, ElementType.Integer));
-        setChildren(fields);
+        setFields(fields);
     }
 
 }

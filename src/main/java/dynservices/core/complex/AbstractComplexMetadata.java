@@ -2,7 +2,9 @@ package dynservices.core.complex;
 
 import dynservices.core.ElementMetadata;
 import dynservices.core.ElementType;
+import dynservices.core.MetadataBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +17,16 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
     private String name;
     private ElementType type = ElementType.Custom;
     private Map<String, String> properties = new HashMap<>();
-    private List<ElementMetadata> children;
+    private List<ElementMetadata> fields = new ArrayList<>();
+
+    protected AbstractComplexMetadata(String name) {
+        checkForName(name);
+        this.name = name;
+    }
 
     @Override
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -37,16 +40,37 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
     }
 
     @Override
-    public List<ElementMetadata> getChildren() {
-        return children;
+    public List<ElementMetadata> getFields() {
+        return fields;
     }
 
-    public void setChildren(List<ElementMetadata> children) {
-        this.children = children;
+    protected void setFields(List<ElementMetadata> fields) {
+        this.fields.addAll(fields);
+    }
+
+    @Override
+    public void addField(ElementMetadata em) {
+        fields.add(em);
+    }
+
+    @Override
+    public void removeField(ElementMetadata em) {
+        fields.remove(em);
     }
 
     @Override
     public ElementMetadata asElementMetadata() {
-        return null; //todo: implement or remove method
+        MetadataBuilder builder = MetadataBuilder.createFor(name, type);
+        builder.withProperties(properties);
+        for (ElementMetadata em : fields) {
+            builder.withField(em);
+        }
+        return builder.build();
+    }
+
+    private void checkForName(String name) {
+        if (name == null || name.length() == 0) {
+            throw new IllegalArgumentException("Name must be defined");
+        }
     }
 }
