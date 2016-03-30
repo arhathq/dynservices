@@ -1,12 +1,11 @@
 package dynservices.core.complex.types;
 
 import dynservices.core.ElementMetadata;
-import dynservices.core.ElementMetadataImpl;
 import dynservices.core.ElementType;
+import dynservices.core.MetadataBuilder;
 import dynservices.core.complex.AbstractComplexMetadata;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -21,11 +20,11 @@ public class AddressMetadata extends AbstractComplexMetadata {
     public AddressMetadata() {
         super(BusinessType.ADDRESS.id());
 
-        List<ElementMetadata> fields = new ArrayList<>();
-        fields.add(new ElementMetadataImpl(COUNTRY, ElementType.String));
-        fields.add(new ElementMetadataImpl(CITY, ElementType.String));
-        fields.add(new ElementMetadataImpl(STREET, ElementType.String));
-        fields.add(new ElementMetadataImpl(ZIP, ElementType.Integer));
+        ArrayList<ElementMetadata> fields = new ArrayList<>();
+        fields.add(MetadataBuilder.createFor(COUNTRY, ElementType.String).build());
+        fields.add(MetadataBuilder.createFor(CITY, ElementType.String).build());
+        fields.add(MetadataBuilder.createFor(STREET, ElementType.String).build());
+        fields.add(MetadataBuilder.createFor(ZIP, ElementType.Integer).build());
         setFields(fields);
     }
 

@@ -1,8 +1,8 @@
 package dynservices.core.complex;
 
 import dynservices.core.ElementMetadata;
-import dynservices.core.ElementMetadataImpl;
 import dynservices.core.ElementType;
+import dynservices.core.MetadataBuilder;
 
 import java.util.*;
 
@@ -58,7 +58,7 @@ public class ComplexMetadataVisitor {
             public void execute(List<ElementMetadata> fields, Map<String, Object> data) {
                 String field = (String) data.get(FIELD);
                 ElementType type = (ElementType) data.get(TYPE);
-                fields.add(new ElementMetadataImpl(field, type));
+                fields.add(MetadataBuilder.createFor(field, type).build());
             }
         },
 

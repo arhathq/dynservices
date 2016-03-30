@@ -12,18 +12,18 @@ public class ElementMetadataImpl implements ElementMetadata {
     private List<ElementMetadata> fields = new ArrayList<>();
     private Map<String, String> properties = new HashMap<>();
 
-    public ElementMetadataImpl(String name, ElementType type) {
+    protected ElementMetadataImpl(String name, ElementType type) {
         this(name, type, Collections.emptyList(), Collections.emptyMap());
     }
 
-    public ElementMetadataImpl(String name, ElementType type, List<ElementMetadata> fields, Map<String, String> properties) {
+    protected ElementMetadataImpl(String name, ElementType type, List<ElementMetadata> fields, Map<String, String> properties) {
         this.name = name;
         this.type = type;
         this.fields.addAll(fields);
         this.properties.putAll(properties);
     }
 
-    public ElementMetadataImpl(ElementMetadata em) {
+    protected ElementMetadataImpl(ElementMetadata em) {
         this.name = em.getName();
         this.type = em.getType();
         this.fields.addAll(em.getFields());
