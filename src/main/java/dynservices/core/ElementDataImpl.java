@@ -11,6 +11,9 @@ public class ElementDataImpl<T> implements ElementData<T> {
     private T value;
     private List<ElementData> children;
 
+    protected ElementDataImpl() {
+    }
+
     public String getName() {
         return name;
     }

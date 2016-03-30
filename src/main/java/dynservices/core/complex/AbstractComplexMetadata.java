@@ -1,6 +1,7 @@
 package dynservices.core.complex;
 
 import dynservices.core.ElementMetadata;
+import dynservices.core.ElementMetadataImpl;
 import dynservices.core.ElementType;
 import dynservices.core.MetadataBuilder;
 
@@ -49,13 +50,9 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
     }
 
     @Override
-    public void addField(ElementMetadata em) {
-        fields.add(em);
-    }
-
-    @Override
-    public void removeField(ElementMetadata em) {
-        fields.remove(em);
+    public ComplexMetadata visit(ComplexMetadataVisitor visitor) {
+        visitor.visit(fields);
+        return this;
     }
 
     @Override

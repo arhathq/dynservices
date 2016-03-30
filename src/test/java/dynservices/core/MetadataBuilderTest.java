@@ -1,5 +1,6 @@
 package dynservices.core;
 
+import dynservices.core.complex.ComplexMetadataVisitor;
 import dynservices.core.complex.types.AddressMetadata;
 import dynservices.core.complex.types.CustomerMetadata;
 import org.junit.Test;
@@ -69,8 +70,10 @@ public class MetadataBuilderTest {
 
     @Test
     public void testBuildComplexMetadataWithNestedData() {
+        CustomerMetadata cm = new CustomerMetadata();
+        ComplexMetadataVisitor visitor = ComplexMetadataVisitor.newVisitor();
         ElementMetadata nestedMetadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(MetadataBuilder.createFor(new CustomerMetadata()).
+                withField(MetadataBuilder.createFor(cm.visit(visitor.addField("middleName", ElementType.String).removeField("lastName"))).
                         withField(MetadataBuilder.createFor("addresses", ElementType.Container).
                                 withField(new AddressMetadata())
                         )

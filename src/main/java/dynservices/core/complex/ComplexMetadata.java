@@ -7,9 +7,7 @@ import dynservices.core.ElementMetadata;
  */
 public interface ComplexMetadata extends ElementMetadata {
 
-    void addField(ElementMetadata em);
-
-    void removeField(ElementMetadata em);
+    ComplexMetadata visit(ComplexMetadataVisitor visitor);
 
     ElementMetadata asElementMetadata();
 
