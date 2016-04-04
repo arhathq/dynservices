@@ -1,4 +1,4 @@
-package dynservices.core.complex.types;
+package dynservices.domain.types;
 
 import dynservices.core.complex.ComplexType;
 

@@ -1,8 +1,5 @@
 package dynservices.core;
 
-import dynservices.core.complex.ComplexMetadataVisitor;
-import dynservices.core.complex.types.AddressMetadata;
-import dynservices.core.complex.types.CustomerMetadata;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

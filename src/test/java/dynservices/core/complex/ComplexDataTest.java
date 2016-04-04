@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import dynservices.core.ElementData;
 import dynservices.domain.Address;
-import dynservices.core.complex.types.AddressData;
+import dynservices.domain.types.AddressData;
 import dynservices.domain.Customer;
-import dynservices.core.complex.types.CustomerData;
+import dynservices.domain.types.CustomerData;
 
 import java.util.ArrayList;
 import java.util.List;
