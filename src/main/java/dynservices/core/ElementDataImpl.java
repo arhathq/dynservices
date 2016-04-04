@@ -1,5 +1,6 @@
 package dynservices.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,9 +10,15 @@ public class ElementDataImpl<T> implements ElementData<T> {
 
     private String name;
     private T value;
-    private List<ElementData> children;
+    private List<ElementData> children  = new ArrayList<>();
 
-    protected ElementDataImpl() {
+    ElementDataImpl() {
+    }
+
+    ElementDataImpl(ElementData<T> data) {
+        this.name = data.getName();
+        this.value = data.getValue();
+        this.children.addAll(data.getChildren());
     }
 
     public String getName() {

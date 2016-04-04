@@ -1,7 +1,7 @@
 package dynservices.core.complex.types;
 
+import dynservices.core.DataBuilder;
 import dynservices.domain.Address;
-import dynservices.core.DataMethods;
 import dynservices.core.ElementData;
 import dynservices.core.complex.AbstractComplexData;
 import dynservices.core.complex.ComplexType;
@@ -29,10 +29,10 @@ public class AddressData extends AbstractComplexData<Address> {
     protected List<ElementData> fromValue(Address address) {
         List<ElementData> data = new ArrayList<>();
 
-        data.add(DataMethods.newElementData(COUNTRY, address.getCountry()));
-        data.add(DataMethods.newElementData(CITY, address.getCity()));
-        data.add(DataMethods.newElementData(STREET, address.getStreet()));
-        data.add(DataMethods.newElementData(ZIP, address.getZip()));
+        data.add(DataBuilder.createFor(COUNTRY, address.getCountry()).build());
+        data.add(DataBuilder.createFor(CITY, address.getCity()).build());
+        data.add(DataBuilder.createFor(STREET, address.getStreet()).build());
+        data.add(DataBuilder.createFor(ZIP, address.getZip()).build());
 
         return data;
     }

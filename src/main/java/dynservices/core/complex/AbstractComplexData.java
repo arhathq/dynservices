@@ -1,6 +1,6 @@
 package dynservices.core.complex;
 
-import dynservices.core.DataMethods;
+import dynservices.core.DataBuilder;
 import dynservices.core.ElementData;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public abstract class AbstractComplexData<T> implements ComplexData<T> {
     @Override
     public ElementData asElementData() {
         if (getValue() == null) {
-            return DataMethods.newElementData(getType().id(), null);
+            return DataBuilder.createFor(getType().id()).build();
         }
 
         List<ElementData> children = new ArrayList<>();
@@ -58,7 +58,7 @@ public abstract class AbstractComplexData<T> implements ComplexData<T> {
             }
         }
 
-        return DataMethods.newElementData(getType().id(), null, children);
+        return DataBuilder.createFor(getType().id()).withChildren(children).build();
     }
 
     protected ElementData resolveElementData(ElementData<?> elementData) {
@@ -70,7 +70,8 @@ public abstract class AbstractComplexData<T> implements ComplexData<T> {
                 resolvedChildren.add(resolveElementData(child));
             }
         }
-        return DataMethods.newElementData(elementData.getName(), elementData.getValue(), resolvedChildren);
+
+        return DataBuilder.createFor(elementData.getName(), elementData.getValue()).withChildren(resolvedChildren).build();
     }
 
     protected abstract List<ElementData> fromValue(T value);

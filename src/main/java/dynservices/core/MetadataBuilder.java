@@ -63,12 +63,28 @@ public class MetadataBuilder {
     }
 
     public ElementMetadata build() {
-        return new ElementMetadataImpl(name, type, fields, properties);
+        checkForBuild();
+        ElementMetadata em = new ElementMetadataImpl(name, type, fields, properties);
+        clearAfterBuild();
+        return em;
+    }
+
+    private void checkForBuild() {
+        if (name == null) {
+            throw new IllegalStateException("Metadata has been already built");
+        }
     }
 
     private void checkForName(String name) {
         if (name == null || name.length() == 0) {
             throw new IllegalStateException("No name defined");
         }
+    }
+
+    private void clearAfterBuild() {
+        name = null;
+        type = null;
+        fields = null;
+        properties = null;
     }
 }

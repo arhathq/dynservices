@@ -1,7 +1,7 @@
 package dynservices.core.complex.types;
 
+import dynservices.core.DataBuilder;
 import dynservices.domain.Customer;
-import dynservices.core.DataMethods;
 import dynservices.core.ElementData;
 import dynservices.core.complex.AbstractComplexData;
 import dynservices.core.complex.ComplexType;
@@ -28,9 +28,9 @@ public class CustomerData extends AbstractComplexData<Customer> {
     protected List<ElementData> fromValue(Customer customer) {
         List<ElementData> data = new ArrayList<>();
 
-        data.add(DataMethods.newElementData(CUSTOMER_NO, customer.getCustomerNo()));
-        data.add(DataMethods.newElementData(FIRST_NAME, customer.getFirstName()));
-        data.add(DataMethods.newElementData(LAST_NAME, customer.getLastName()));
+        data.add(DataBuilder.createFor(CUSTOMER_NO, customer.getCustomerNo()).build());
+        data.add(DataBuilder.createFor(FIRST_NAME, customer.getFirstName()).build());
+        data.add(DataBuilder.createFor(LAST_NAME, customer.getLastName()).build());
 
         return data;
     }

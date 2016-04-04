@@ -43,6 +43,19 @@ public class MetadataBuilderTest {
     }
 
     @Test
+    public void testBuildMetadataTwice() {
+        MetadataBuilder builder = MetadataBuilder.createFor("username", ElementType.String);
+
+        builder.build();
+        try {
+            builder.build();
+            fail("No exception was thrown");
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalStateException);
+        }
+    }
+
+    @Test
     public void testBuildMetadataWithProperties() {
         Map<String, String> properties = new HashMap<>();
         properties.put("alias", "cs");
@@ -57,30 +70,4 @@ public class MetadataBuilderTest {
         assertNotNull(metadata.getProperties().get("alias"));
         assertNotNull(metadata.getProperties().get("validation"));
     }
-
-    @Test
-    public void testBuildComplexMetadata() {
-        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(new CustomerMetadata()).
-                withField(new AddressMetadata()).
-                build();
-
-        assertTrue(metadata.getFields().size() == 2);
-    }
-
-    @Test
-    public void testBuildComplexMetadataWithNestedData() {
-        CustomerMetadata cm = new CustomerMetadata();
-        ComplexMetadataVisitor visitor = ComplexMetadataVisitor.newVisitor();
-        ElementMetadata nestedMetadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(MetadataBuilder.createFor(cm.visit(visitor.addField("middleName", ElementType.String).removeField("lastName"))).
-                        withField(MetadataBuilder.createFor("addresses", ElementType.Container).
-                                withField(new AddressMetadata())
-                        )
-                ).
-                build();
-
-        assertTrue(nestedMetadata.getFields().size() == 1);
-    }
-
 }
