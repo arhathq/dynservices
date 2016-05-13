@@ -7,7 +7,7 @@ public class Service {
 
     private String name;
     private String version;
-    private ElementData data;
-    private ElementMetadata metadata;
+    private Element data;
+    private ElementDefinition metadata;
 
 }

@@ -6,38 +6,38 @@ import java.util.List;
 /**
  * @author Alexander Kuleshov
  */
-public class DataBuilder<T> {
+public class ElementBuilder<T> {
 
     private String name;
     private T value;
-    private List<ElementData> children = new ArrayList<>();
+    private List<Element> children = new ArrayList<>();
 
-    private DataBuilder(String name, T value) {
+    private ElementBuilder(String name, T value) {
         this.name = name;
         this.value = value;
     }
 
-    public static <T> DataBuilder<T> createFor(String name, T value) {
-        return new DataBuilder<T>(name, value);
+    public static <T> ElementBuilder<T> createFor(String name, T value) {
+        return new ElementBuilder<T>(name, value);
     }
 
-    public static <T> DataBuilder<T> createFor(String name) {
+    public static <T> ElementBuilder<T> createFor(String name) {
         return createFor(name, null);
     }
 
-    public DataBuilder<T> withChildren(List<ElementData> children) {
+    public ElementBuilder<T> withChildren(List<Element> children) {
         this.children.addAll(children);
         return this;
     }
 
-    public DataBuilder<T> withChild(ElementData<?> child) {
-        children.add(new ElementDataImpl<>(child));
+    public ElementBuilder<T> withChild(Element<?> child) {
+        children.add(new ElementImpl<>(child));
         return this;
     }
 
-    public ElementData build() {
+    public Element build() {
         checkForBuild();
-        ElementDataImpl<T> data = new ElementDataImpl<>();
+        ElementImpl<T> data = new ElementImpl<>();
         data.setName(name);
         data.setValue(value);
         data.setChildren(children);
@@ -49,7 +49,7 @@ public class DataBuilder<T> {
 
     private void checkForBuild() {
         if (name == null) {
-            throw new IllegalStateException("Data has been already built");
+            throw new IllegalStateException("Element has been already built");
         }
     }
 

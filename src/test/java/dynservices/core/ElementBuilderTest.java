@@ -11,22 +11,22 @@ import static org.junit.Assert.fail;
  * @author Alexander Kuleshov
  */
 @RunWith(JUnit4.class)
-public class DataBuilderTest {
+public class ElementBuilderTest {
     @Test
     public void testBuildData() {
-        ElementData addressData = DataBuilder.createFor("address").
-                withChild(DataBuilder.createFor("country", "Ukraine").build()).
-                withChild(DataBuilder.createFor("city", "Kyiv").build()).
-                withChild(DataBuilder.createFor("street", "Lenina str.").build()).
+        Element addressData = ElementBuilder.createFor("address").
+                withChild(ElementBuilder.createFor("country", "Ukraine").build()).
+                withChild(ElementBuilder.createFor("city", "Kyiv").build()).
+                withChild(ElementBuilder.createFor("street", "Lenina str.").build()).
                 build();
 
         assertTrue(addressData.getName().equals("address"));
         assertTrue(addressData.getChildren().size() == 3);
 
-        ElementData customerData = DataBuilder.createFor("customer").
-                withChild(DataBuilder.createFor("firstName", "John").build()).
-                withChild(DataBuilder.createFor("lastName", "Doe").build()).
-                withChild(DataBuilder.createFor("addresses").withChild(addressData).build()).
+        Element customerData = ElementBuilder.createFor("customer").
+                withChild(ElementBuilder.createFor("firstName", "John").build()).
+                withChild(ElementBuilder.createFor("lastName", "Doe").build()).
+                withChild(ElementBuilder.createFor("addresses").withChild(addressData).build()).
                 build();
 
         assertTrue(customerData.getChildren().size() == 3);
@@ -34,7 +34,7 @@ public class DataBuilderTest {
 
     @Test
     public void testBuildDataTwice() {
-        DataBuilder builder = DataBuilder.createFor("intValue", 1);
+        ElementBuilder builder = ElementBuilder.createFor("intValue", 1);
         builder.build();
 
         try {

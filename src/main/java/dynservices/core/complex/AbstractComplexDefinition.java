@@ -1,9 +1,8 @@
 package dynservices.core.complex;
 
-import dynservices.core.ElementMetadata;
-import dynservices.core.ElementMetadataImpl;
+import dynservices.core.ElementDefinition;
 import dynservices.core.ElementType;
-import dynservices.core.MetadataBuilder;
+import dynservices.core.ElementDefinitionBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,14 +12,14 @@ import java.util.Map;
 /**
  *
  */
-public abstract class AbstractComplexMetadata implements ComplexMetadata {
+public abstract class AbstractComplexDefinition implements ComplexDefinition {
 
     private String name;
     private ElementType type = ElementType.Custom;
     private Map<String, String> properties = new HashMap<>();
-    private List<ElementMetadata> fields = new ArrayList<>();
+    private List<ElementDefinition> fields = new ArrayList<>();
 
-    protected AbstractComplexMetadata(String name) {
+    protected AbstractComplexDefinition(String name) {
         checkForName(name);
         this.name = name;
     }
@@ -41,25 +40,25 @@ public abstract class AbstractComplexMetadata implements ComplexMetadata {
     }
 
     @Override
-    public List<ElementMetadata> getFields() {
+    public List<ElementDefinition> getFields() {
         return fields;
     }
 
-    protected void setFields(List<ElementMetadata> fields) {
+    protected void setFields(List<ElementDefinition> fields) {
         this.fields.addAll(fields);
     }
 
     @Override
-    public ComplexMetadata visit(ComplexMetadataVisitor visitor) {
+    public ComplexDefinition visit(ComplexMetadataVisitor visitor) {
         visitor.visit(fields);
         return this;
     }
 
     @Override
-    public ElementMetadata asElementMetadata() {
-        MetadataBuilder builder = MetadataBuilder.createFor(name, type);
+    public ElementDefinition asElementMetadata() {
+        ElementDefinitionBuilder builder = ElementDefinitionBuilder.createFor(name, type);
         builder.withProperties(properties);
-        for (ElementMetadata em : fields) {
+        for (ElementDefinition em : fields) {
             builder.withField(em);
         }
         return builder.build();

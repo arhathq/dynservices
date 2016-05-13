@@ -9,69 +9,69 @@ import java.util.Map;
 /**
  * Suitable class for generation of metadata. It is not a thread safe
  */
-public class MetadataBuilder {
+public class ElementDefinitionBuilder {
 
     private String name;
     private ElementType type;
-    private List<ElementMetadata> fields = new ArrayList<>();
+    private List<ElementDefinition> fields = new ArrayList<>();
     private Map<String, String> properties = new HashMap<>();
 
-    private MetadataBuilder(String name, ElementType type) {
+    private ElementDefinitionBuilder(String name, ElementType type) {
         checkForName(name);
         this.name = name;
         this.type = type;
     }
 
-    private MetadataBuilder(ElementMetadata em) {
+    private ElementDefinitionBuilder(ElementDefinition em) {
         this.name = em.getName();
         this.type = em.getType();
         fields.addAll(em.getFields());
     }
 
-    public static MetadataBuilder createFor(String name, ElementType type) {
-        return new MetadataBuilder(name, type);
+    public static ElementDefinitionBuilder createFor(String name, ElementType type) {
+        return new ElementDefinitionBuilder(name, type);
     }
 
-    public static MetadataBuilder createFor(ElementMetadata em) {
-        return new MetadataBuilder(em);
+    public static ElementDefinitionBuilder createFor(ElementDefinition em) {
+        return new ElementDefinitionBuilder(em);
     }
 
-    public MetadataBuilder withField(String name, ElementType type) {
+    public ElementDefinitionBuilder withField(String name, ElementType type) {
         checkForName(name);
-        fields.add(new ElementMetadataImpl(name, type));
+        fields.add(new ElementDefinitionImpl(name, type));
         return this;
     }
 
-    public MetadataBuilder withField(ElementMetadata em) {
+    public ElementDefinitionBuilder withField(ElementDefinition em) {
         fields.add(em);
         return this;
     }
 
-    public MetadataBuilder withField(MetadataBuilder builder) {
+    public ElementDefinitionBuilder withField(ElementDefinitionBuilder builder) {
         fields.add(builder.build());
         return this;
     }
 
-    public MetadataBuilder withProperties(Map<String, String> properties) {
+    public ElementDefinitionBuilder withProperties(Map<String, String> properties) {
         this.properties.putAll(properties);
         return this;
     }
 
-    public MetadataBuilder withProperty(String name, String value) {
+    public ElementDefinitionBuilder withProperty(String name, String value) {
         properties.put(name, value);
         return this;
     }
 
-    public ElementMetadata build() {
+    public ElementDefinition build() {
         checkForBuild();
-        ElementMetadata em = new ElementMetadataImpl(name, type, fields, properties);
+        ElementDefinition em = new ElementDefinitionImpl(name, type, fields, properties);
         clearAfterBuild();
         return em;
     }
 
     private void checkForBuild() {
         if (name == null) {
-            throw new IllegalStateException("Metadata has been already built");
+            throw new IllegalStateException("ElementDefinition has been already built");
         }
     }
 

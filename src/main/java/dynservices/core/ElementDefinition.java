@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  *
  */
-public interface ElementMetadata {
+public interface ElementDefinition {
 
     String getName();
 
@@ -14,6 +14,6 @@ public interface ElementMetadata {
 
     Map<String, String> getProperties();
 
-    List<ElementMetadata> getFields();
+    List<ElementDefinition> getFields();
 
 }

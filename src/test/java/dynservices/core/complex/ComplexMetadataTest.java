@@ -1,10 +1,10 @@
 package dynservices.core.complex;
 
-import dynservices.core.ElementMetadata;
+import dynservices.core.ElementDefinition;
 import dynservices.core.ElementType;
-import dynservices.core.MetadataBuilder;
-import dynservices.domain.types.AddressMetadata;
-import dynservices.domain.types.CustomerMetadata;
+import dynservices.core.ElementDefinitionBuilder;
+import dynservices.domain.types.AddressDefinition;
+import dynservices.domain.types.CustomerDefinition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -23,9 +23,9 @@ public class ComplexMetadataTest {
 
     @Test
     public void testBuildComplexMetadata() {
-        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(new CustomerMetadata()).
-                withField(new AddressMetadata()).
+        ElementDefinition metadata = ElementDefinitionBuilder.createFor("service", ElementType.Container).
+                withField(new CustomerDefinition()).
+                withField(new AddressDefinition()).
                 build();
 
         assertTrue(metadata.getFields().size() == 2);
@@ -33,10 +33,10 @@ public class ComplexMetadataTest {
 
     @Test
     public void testBuildComplexMetadataWithNestedData() {
-        ElementMetadata nestedMetadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(MetadataBuilder.createFor(new CustomerMetadata()).
-                        withField(MetadataBuilder.createFor("addresses", ElementType.Container).
-                                withField(new AddressMetadata())
+        ElementDefinition nestedMetadata = ElementDefinitionBuilder.createFor("service", ElementType.Container).
+                withField(ElementDefinitionBuilder.createFor(new CustomerDefinition()).
+                        withField(ElementDefinitionBuilder.createFor("addresses", ElementType.Container).
+                                withField(new AddressDefinition())
                         )
                 ).
                 build();
@@ -46,10 +46,10 @@ public class ComplexMetadataTest {
 
     @Test
     public void testModifyComplexMetadata() {
-        CustomerMetadata cm = new CustomerMetadata();
+        CustomerDefinition cm = new CustomerDefinition();
 
         Set<String> originNames = new HashSet<>();
-        originNames.addAll(cm.getFields().stream().map(ElementMetadata::getName).collect(Collectors.toList()));
+        originNames.addAll(cm.getFields().stream().map(ElementDefinition::getName).collect(Collectors.toList()));
 
         ComplexMetadataVisitor visitor = ComplexMetadataVisitor.newVisitor().addField("middleName", ElementType.String).removeField("lastName");
         cm.visit(visitor);
@@ -57,7 +57,7 @@ public class ComplexMetadataTest {
         assertTrue(cm.getFields().size() == 3);
 
         Set<String> modifiedNames = new HashSet<>();
-        modifiedNames.addAll(cm.getFields().stream().map(ElementMetadata::getName).collect(Collectors.toList()));
+        modifiedNames.addAll(cm.getFields().stream().map(ElementDefinition::getName).collect(Collectors.toList()));
 
         assertTrue(!originNames.equals(modifiedNames));
     }

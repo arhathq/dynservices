@@ -5,25 +5,25 @@ import java.util.*;
 /**
  *
  */
-public class ElementMetadataImpl implements ElementMetadata {
+public class ElementDefinitionImpl implements ElementDefinition {
 
     private String name;
     private ElementType type;
-    private List<ElementMetadata> fields = new ArrayList<>();
+    private List<ElementDefinition> fields = new ArrayList<>();
     private Map<String, String> properties = new HashMap<>();
 
-    protected ElementMetadataImpl(String name, ElementType type) {
+    protected ElementDefinitionImpl(String name, ElementType type) {
         this(name, type, Collections.emptyList(), Collections.emptyMap());
     }
 
-    protected ElementMetadataImpl(String name, ElementType type, List<ElementMetadata> fields, Map<String, String> properties) {
+    protected ElementDefinitionImpl(String name, ElementType type, List<ElementDefinition> fields, Map<String, String> properties) {
         this.name = name;
         this.type = type;
         this.fields.addAll(fields);
         this.properties.putAll(properties);
     }
 
-    protected ElementMetadataImpl(ElementMetadata em) {
+    protected ElementDefinitionImpl(ElementDefinition em) {
         this.name = em.getName();
         this.type = em.getType();
         this.fields.addAll(em.getFields());
@@ -46,7 +46,7 @@ public class ElementMetadataImpl implements ElementMetadata {
     }
 
     @Override
-    public List<ElementMetadata> getFields() {
+    public List<ElementDefinition> getFields() {
         return fields;
     }
 

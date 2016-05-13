@@ -1,8 +1,8 @@
 package dynservices.core.complex;
 
-import dynservices.core.ElementMetadata;
+import dynservices.core.ElementDefinition;
 import dynservices.core.ElementType;
-import dynservices.core.MetadataBuilder;
+import dynservices.core.ElementDefinitionBuilder;
 
 import java.util.*;
 
@@ -24,7 +24,7 @@ public class ComplexMetadataVisitor {
     }
 
 
-    void visit(List<ElementMetadata> fields) {
+    void visit(List<ElementDefinition> fields) {
         Iterator<Map<String, Object>> it = operations.iterator();
         while (it.hasNext()) {
             Map<String, Object> data = it.next();
@@ -55,20 +55,20 @@ public class ComplexMetadataVisitor {
 
         ADD {
             @Override
-            public void execute(List<ElementMetadata> fields, Map<String, Object> data) {
+            public void execute(List<ElementDefinition> fields, Map<String, Object> data) {
                 String field = (String) data.get(FIELD);
                 ElementType type = (ElementType) data.get(TYPE);
-                fields.add(MetadataBuilder.createFor(field, type).build());
+                fields.add(ElementDefinitionBuilder.createFor(field, type).build());
             }
         },
 
         REMOVE {
             @Override
-            public void execute(List<ElementMetadata> fields, Map<String, Object> data) {
+            public void execute(List<ElementDefinition> fields, Map<String, Object> data) {
                 String name = (String) data.get(FIELD);
-                Iterator<ElementMetadata> it = fields.iterator();
+                Iterator<ElementDefinition> it = fields.iterator();
                 while (it.hasNext()) {
-                    ElementMetadata field = it.next();
+                    ElementDefinition field = it.next();
                     if (field.getName().equals(name)) {
                         it.remove();
                     }
@@ -76,6 +76,6 @@ public class ComplexMetadataVisitor {
             }
         };
 
-        public abstract void execute(List<ElementMetadata> fields, Map<String, Object> data);
+        public abstract void execute(List<ElementDefinition> fields, Map<String, Object> data);
     }
 }

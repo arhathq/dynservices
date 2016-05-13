@@ -5,12 +5,12 @@ import java.util.List;
 /**
  *
  */
-public interface ElementData<T> {
+public interface Element<T> {
 
     String getName();
 
     T getValue();
 
-    List<ElementData> getChildren();
+    List<Element> getChildren();
 
 }

@@ -6,16 +6,16 @@ import java.util.List;
 /**
  *
  */
-public class ElementDataImpl<T> implements ElementData<T> {
+public class ElementImpl<T> implements Element<T> {
 
     private String name;
     private T value;
-    private List<ElementData> children  = new ArrayList<>();
+    private List<Element> children  = new ArrayList<>();
 
-    ElementDataImpl() {
+    ElementImpl() {
     }
 
-    ElementDataImpl(ElementData<T> data) {
+    ElementImpl(Element<T> data) {
         this.name = data.getName();
         this.value = data.getValue();
         this.children.addAll(data.getChildren());
@@ -37,11 +37,11 @@ public class ElementDataImpl<T> implements ElementData<T> {
         this.value = value;
     }
 
-    public List<ElementData> getChildren() {
+    public List<Element> getChildren() {
         return children;
     }
 
-    public void setChildren(List<ElementData> children) {
+    public void setChildren(List<Element> children) {
         this.children = children;
     }
 

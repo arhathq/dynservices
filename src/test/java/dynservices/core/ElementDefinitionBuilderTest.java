@@ -13,18 +13,18 @@ import static org.junit.Assert.*;
  * @author Alexander Kuleshov
  */
 @RunWith(JUnit4.class)
-public class MetadataBuilderTest {
+public class ElementDefinitionBuilderTest {
 
     @Test
     public void testBuildMetadata() {
-        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.Container).
-                withField(MetadataBuilder.createFor("customer", ElementType.Container).
+        ElementDefinition metadata = ElementDefinitionBuilder.createFor("service", ElementType.Container).
+                withField(ElementDefinitionBuilder.createFor("customer", ElementType.Container).
                         withField("custNo", ElementType.String).
                         withField("firstName", ElementType.String).
                         withField("lastName", ElementType.String).
                         withField("birthDate", ElementType.Date).
-                        withField(MetadataBuilder.createFor("addresses", ElementType.Container).
-                                withField(MetadataBuilder.createFor("address", ElementType.Container).
+                        withField(ElementDefinitionBuilder.createFor("addresses", ElementType.Container).
+                                withField(ElementDefinitionBuilder.createFor("address", ElementType.Container).
                                         withField("country", ElementType.String).
                                         withField("city", ElementType.String)
                                 )
@@ -34,14 +34,14 @@ public class MetadataBuilderTest {
 
         assertTrue(metadata.getFields().size() == 1);
 
-        ElementMetadata customerMetadata = metadata.getFields().get(0);
+        ElementDefinition customerMetadata = metadata.getFields().get(0);
 
         assertTrue(customerMetadata.getFields().size() == 5);
     }
 
     @Test
     public void testBuildMetadataTwice() {
-        MetadataBuilder builder = MetadataBuilder.createFor("username", ElementType.String);
+        ElementDefinitionBuilder builder = ElementDefinitionBuilder.createFor("username", ElementType.String);
 
         builder.build();
         try {
@@ -58,7 +58,7 @@ public class MetadataBuilderTest {
         properties.put("alias", "cs");
         properties.put("validation", "true");
 
-        ElementMetadata metadata = MetadataBuilder.createFor("service", ElementType.String).
+        ElementDefinition metadata = ElementDefinitionBuilder.createFor("service", ElementType.String).
                 withProperty("persisted", "true").
                 withProperties(properties).
                 build();
