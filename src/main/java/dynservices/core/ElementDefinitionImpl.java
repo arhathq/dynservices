@@ -10,20 +10,20 @@ public class ElementDefinitionImpl implements ElementDefinition {
     private String name;
     private ElementType type;
     private List<ElementDefinition> fields = new ArrayList<>();
-    private Map<String, String> properties = new HashMap<>();
+    private Map<String, PropertyType> properties = new HashMap<>();
 
     protected ElementDefinitionImpl(String name, ElementType type) {
         this(name, type, Collections.emptyList(), Collections.emptyMap());
     }
 
-    protected ElementDefinitionImpl(String name, ElementType type, List<ElementDefinition> fields, Map<String, String> properties) {
+    protected ElementDefinitionImpl(String name, ElementType type, List<ElementDefinition> fields, Map<String, PropertyType> properties) {
         this.name = name;
         this.type = type;
         this.fields.addAll(fields);
         this.properties.putAll(properties);
     }
 
-    protected ElementDefinitionImpl(ElementDefinition em) {
+    ElementDefinitionImpl(ElementDefinition em) {
         this.name = em.getName();
         this.type = em.getType();
         this.fields.addAll(em.getFields());
@@ -41,7 +41,7 @@ public class ElementDefinitionImpl implements ElementDefinition {
     }
 
     @Override
-    public Map<String, String> getProperties() {
+    public Map<String, PropertyType> getProperties() {
         return properties;
     }
 

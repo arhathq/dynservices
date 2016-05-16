@@ -3,6 +3,7 @@ package dynservices.core.complex;
 import dynservices.core.ElementDefinition;
 import dynservices.core.ElementType;
 import dynservices.core.ElementDefinitionBuilder;
+import dynservices.core.PropertyType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public abstract class AbstractComplexDefinition implements ComplexDefinition {
 
     private String name;
     private ElementType type = ElementType.Custom;
-    private Map<String, String> properties = new HashMap<>();
+    private Map<String, PropertyType> properties = new HashMap<>();
     private List<ElementDefinition> fields = new ArrayList<>();
 
     protected AbstractComplexDefinition(String name) {
@@ -35,8 +36,12 @@ public abstract class AbstractComplexDefinition implements ComplexDefinition {
     }
 
     @Override
-    public Map<String, String> getProperties() {
+    public Map<String, PropertyType> getProperties() {
         return properties;
+    }
+
+    protected void setProperties(Map<String, PropertyType> properties) {
+        this.properties.putAll(properties);
     }
 
     @Override

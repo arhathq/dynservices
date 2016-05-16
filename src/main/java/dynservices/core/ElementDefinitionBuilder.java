@@ -14,7 +14,7 @@ public class ElementDefinitionBuilder {
     private String name;
     private ElementType type;
     private List<ElementDefinition> fields = new ArrayList<>();
-    private Map<String, String> properties = new HashMap<>();
+    private Map<String, PropertyType> properties = new HashMap<>();
 
     private ElementDefinitionBuilder(String name, ElementType type) {
         checkForName(name);
@@ -52,13 +52,13 @@ public class ElementDefinitionBuilder {
         return this;
     }
 
-    public ElementDefinitionBuilder withProperties(Map<String, String> properties) {
+    public ElementDefinitionBuilder withProperties(Map<String, PropertyType> properties) {
         this.properties.putAll(properties);
         return this;
     }
 
-    public ElementDefinitionBuilder withProperty(String name, String value) {
-        properties.put(name, value);
+    public ElementDefinitionBuilder withProperty(String name, PropertyType type) {
+        properties.put(name, type);
         return this;
     }
 

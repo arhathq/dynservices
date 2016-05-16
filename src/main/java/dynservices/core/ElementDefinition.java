@@ -12,7 +12,7 @@ public interface ElementDefinition {
 
     ElementType getType();
 
-    Map<String, String> getProperties();
+    Map<String, PropertyType> getProperties();
 
     List<ElementDefinition> getFields();
 
