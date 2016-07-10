@@ -14,37 +14,24 @@ import java.util.Map;
 /**
  *
  */
-public class ServiceDefinition extends AbstractComplexDefinition {
+public interface ServiceDefinition {
 
-    public ServiceDefinition() {
-        super(BlockType.SERVICE.id());
+    String getName();
 
-        ArrayList<ElementDefinition> fields = new ArrayList<>();
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.REQUEST.id(), ElementType.Custom).build());
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.RESPONSE.id(), ElementType.Custom).build());
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.ACTION.id(), ElementType.Custom).build());
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.ERROR.id(), ElementType.Custom).build());
-        setFields(fields);
+    String getVersion();
 
-        HashMap<String, PropertyType> properties = new HashMap<>();
-        properties.put("name", PropertyType.String);
-        properties.put("version", PropertyType.String);
-        setProperties(properties);
+    String getHttpMethod();
 
-    }
+    String getPathPrefix();
 
-//    String getName();
-//
-//    String getVersion();
-//
-//    Map<String, String> getProperties();
-//
-//    RequestDefinition getRequestDefinition();
-//
-//    List<ActionDefinition> getActionsDefinitions();
-//
-//    ResponseDefinition getResponseDefinition();
-//
-//    ErrorDefinition getErrorDefinition();
+    String getPathSuffix();
+
+    RequestDefinition getRequestDefinition();
+
+    List<ActionDefinition> getActionsDefinitions();
+
+    ResponseDefinition getResponseDefinition();
+
+    ErrorDefinition getErrorDefinition();
 
 }

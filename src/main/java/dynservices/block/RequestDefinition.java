@@ -4,21 +4,18 @@ import dynservices.core.ElementDefinition;
 import dynservices.core.ElementDefinitionBuilder;
 import dynservices.core.ElementType;
 import dynservices.core.complex.AbstractComplexDefinition;
+import dynservices.core.complex.ComplexDefinition;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alexander Kuleshov
  */
-public class RequestDefinition extends AbstractComplexDefinition {
+public interface RequestDefinition {
 
-    public RequestDefinition() {
-        super(BlockType.REQUEST.id());
+    List<ElementDefinition> getRequestParameters();
 
-        ArrayList<ElementDefinition> fields = new ArrayList<>();
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.REQUEST_PARAMETER.id(), ElementType.Custom).build());
-        fields.add(ElementDefinitionBuilder.createFor(BlockType.REQUEST_BODY.id(), ElementType.Container).build());
-        setFields(fields);
-    }
+    ComplexDefinition getRequestBody();
 
 }

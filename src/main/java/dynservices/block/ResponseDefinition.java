@@ -1,14 +1,12 @@
 package dynservices.block;
 
-import dynservices.core.ElementDefinitionImpl;
-import dynservices.core.ElementType;
+import dynservices.core.complex.ComplexDefinition;
 
 /**
  * @author Alexander Kuleshov
  */
-public class ResponseDefinition extends ElementDefinitionImpl {
+public interface ResponseDefinition {
 
-    public ResponseDefinition() {
-        super(BlockType.RESPONSE.id(), ElementType.Container);
-    }
+    ComplexDefinition getBody();
+
 }

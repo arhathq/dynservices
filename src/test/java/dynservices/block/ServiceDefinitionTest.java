@@ -1,9 +1,5 @@
 package dynservices.block;
 
-import dynservices.core.ElementDefinition;
-import dynservices.core.ElementDefinitionBuilder;
-import dynservices.core.ElementType;
-import dynservices.core.PropertyType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,16 +13,28 @@ import static org.junit.Assert.assertTrue;
 public class ServiceDefinitionTest {
     @Test
     public void createServiceDefinition() {
-        ElementDefinition serviceDefinition = ElementDefinitionBuilder.createFor("service", ElementType.Container).
-                withProperty("name", PropertyType.String).
-                withProperty("version", PropertyType.String).
-                withField(ElementDefinitionBuilder.createFor("request", ElementType.Container)).
-                withField(ElementDefinitionBuilder.createFor("actions", ElementType.Container)).
-                withField(ElementDefinitionBuilder.createFor("response", ElementType.Container)).
-                withField(ElementDefinitionBuilder.createFor("error", ElementType.Container)).
+        String serviceName = "getAddresses";
+        String serviceVersion = "1.0";
+        String serviceMethod = "GET";
+        String servicePrefix = "addresses";
+        String serviceSuffix = "billing";
+
+        ServiceDefinition schema = ServiceDefinitionBuilder.createFor(serviceName).
+                withVersion(serviceVersion).
+                withHttpMethod(serviceMethod).
+                withPathPrefix(servicePrefix).
+                withPathSuffix(serviceSuffix).
+//                withRequestDefinition().
+//                withActionDefinition().
+//                withActionDefinition().
+//                withResponseDefinition().
+//                withErrorDefinition().
                 build();
 
-        assertTrue(serviceDefinition.getProperties().size() == 2);
-        assertTrue(serviceDefinition.getFields().size() == 4);
+        assertTrue(serviceName.equals(schema.getName()));
+        assertTrue(serviceVersion.equals(schema.getVersion()));
+        assertTrue(serviceMethod.equals(schema.getHttpMethod()));
+        assertTrue(servicePrefix.equals(schema.getPathPrefix()));
+        assertTrue(serviceSuffix.equals(schema.getPathSuffix()));
     }
 }

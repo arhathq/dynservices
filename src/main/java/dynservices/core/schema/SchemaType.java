@@ -1,11 +1,11 @@
-package dynservices.block;
+package dynservices.core.schema;
 
 import dynservices.core.complex.ComplexType;
 
 /**
  * @author Alexander Kuleshov
  */
-public enum BlockType implements ComplexType {
+public enum SchemaType implements ComplexType {
 
     SERVICE("service"),
     REQUEST("request"),
@@ -21,7 +21,7 @@ public enum BlockType implements ComplexType {
 
     private final String id;
 
-    BlockType(String id) {
+    SchemaType(String id) {
         this.id = id;
     }
 
