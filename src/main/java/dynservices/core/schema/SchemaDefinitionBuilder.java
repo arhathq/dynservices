@@ -11,7 +11,7 @@ import java.util.Map;
 public class SchemaDefinitionBuilder {
 
     private SchemaType type;
-    private Map<SchemaType, SchemaDefinition> fields = new HashMap<>();
+    private Map<SchemaType, SchemaDefinition[]> fields = new HashMap<>();
     private Map<String, PropertyType> properties = new HashMap<>();
 
     private SchemaDefinitionBuilder(SchemaType type) {
@@ -32,19 +32,20 @@ public class SchemaDefinitionBuilder {
         return new SchemaDefinitionBuilder(definition);
     }
 
-    protected SchemaDefinitionBuilder withField(SchemaType type, Map<String, PropertyType> properties, Map<SchemaType, SchemaDefinition> fields) {
-        fields.put(type, new SchemaDefinitionImpl(type, properties, fields));
+    protected SchemaDefinitionBuilder withField(SchemaType type, Map<String, PropertyType> properties, Map<SchemaType, SchemaDefinition[]> fields) {
+        fields.put(type, add(field(type), new SchemaDefinitionImpl(type, properties, fields)));
         return this;
     }
 
     public SchemaDefinitionBuilder withField(SchemaDefinition definition) {
-        fields.put(definition.getType(), definition);
+        fields.put(definition.getType(), add(field(definition.getType()), new SchemaDefinitionImpl(definition)));
         return this;
     }
 
+
     public SchemaDefinitionBuilder withField(SchemaDefinitionBuilder builder) {
         SchemaDefinition definition = builder.build();
-        fields.put(definition.getType(), definition);
+        fields.put(definition.getType(), add(field(definition.getType()), definition));
         return this;
     }
 
@@ -63,6 +64,19 @@ public class SchemaDefinitionBuilder {
         SchemaDefinition em = new SchemaDefinitionImpl(type, properties, fields);
         clearAfterBuild();
         return em;
+    }
+
+    private SchemaDefinition[] field(SchemaType type) {
+        return fields.getOrDefault(type, new SchemaDefinition[0]);
+    }
+
+    private SchemaDefinition[] add(SchemaDefinition[] oldArr, SchemaDefinition el) {
+        SchemaDefinition[] newArr = new SchemaDefinition[oldArr.length + 1];
+
+        System.arraycopy(oldArr, 0, newArr, 0, oldArr.length);
+        newArr[newArr.length - 1] = el;
+
+        return newArr;
     }
 
     private void checkForBuild() {
@@ -94,12 +108,18 @@ public class SchemaDefinitionBuilder {
 
         private final SchemaType type;
         private final Map<String, PropertyType> properties = new HashMap<>();
-        private final Map<SchemaType, SchemaDefinition> fields = new HashMap<>();
+        private final Map<SchemaType, SchemaDefinition[]> fields = new HashMap<>();
 
-        public SchemaDefinitionImpl(SchemaType type, Map<String, PropertyType> properties, Map<SchemaType, SchemaDefinition> fields) {
+        SchemaDefinitionImpl(SchemaType type, Map<String, PropertyType> properties, Map<SchemaType, SchemaDefinition[]> fields) {
             this.type = type;
             this.properties.putAll(properties);
             this.fields.putAll(fields);
+        }
+
+        SchemaDefinitionImpl(SchemaDefinition schemaDefinition) {
+            this.type = schemaDefinition.getType();
+            this.properties.putAll(schemaDefinition.getProperties());
+            this.fields.putAll(schemaDefinition.getFields());
         }
 
         @Override
@@ -113,7 +133,7 @@ public class SchemaDefinitionBuilder {
         }
 
         @Override
-        public Map<SchemaType, SchemaDefinition> getFields() {
+        public Map<SchemaType, SchemaDefinition[]> getFields() {
             return fields;
         }
     }

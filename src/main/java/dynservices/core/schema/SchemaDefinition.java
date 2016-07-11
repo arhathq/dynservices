@@ -13,6 +13,6 @@ public interface SchemaDefinition {
 
     Map<String, PropertyType> getProperties();
 
-    Map<SchemaType, SchemaDefinition> getFields();
+    Map<SchemaType, SchemaDefinition[]> getFields();
 
 }

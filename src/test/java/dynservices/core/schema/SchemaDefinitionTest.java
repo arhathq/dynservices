@@ -19,6 +19,8 @@ public class SchemaDefinitionTest {
                 withProperty("version", PropertyType.String).
                 withField(SchemaDefinitionBuilder.createFor(SchemaType.REQUEST)).
                 withField(SchemaDefinitionBuilder.createFor(SchemaType.ACTION)).
+                withField(SchemaDefinitionBuilder.createFor(SchemaType.ACTION)).
+                withField(SchemaDefinitionBuilder.createFor(SchemaType.ACTION)).
                 withField(SchemaDefinitionBuilder.createFor(SchemaType.RESPONSE)).
                 withField(SchemaDefinitionBuilder.createFor(SchemaType.ERROR)).
                 build();
