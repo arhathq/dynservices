@@ -1,0 +1,8 @@
+package dynservices.core.types;
+
+
+/**
+ * @author Alexander Kuleshov
+ */
+public interface Value {
+}
